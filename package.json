@@ -1,12 +1,29 @@
 {
   "name": "textbook.dev",
   "version": "0.1.0",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "bin": "lib/cli.js",
+  "files": [
+    "lib/"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc --project tsconfig.build.json",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prestart": "npm run build",
+    "start": "node lib/cli.js"
   },
   "keywords": [],
   "author": "Jonathan Sharpe <mail@jonrshar.pe>",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.4",
+    "@types/node": "^20.14.11",
+    "typescript": "^5.5.3"
+  },
+  "engines": {
+    "node": ">=20.9"
+  },
+  "type": "module"
 }
