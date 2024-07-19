@@ -18,7 +18,7 @@
   "keywords": [],
   "author": "Jonathan Sharpe <mail@jonrshar.pe>",
   "license": "ISC",
-  "description": "",
+  "description": "About the author",
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",
     "@types/node": "^20.14.11",
@@ -33,5 +33,13 @@
   "engines": {
     "node": ">=20.9"
   },
-  "type": "module"
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/textbook/textbook.dev.git"
+  },
+  "bugs": {
+    "url": "https://github.com/textbook/textbook.dev/issues"
+  },
+  "funding": "https://ko-fi.com/textbook"
 }
