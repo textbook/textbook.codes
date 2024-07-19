@@ -23,6 +23,8 @@ describe("createSummary", () => {
   }
 
   it("gets data from Stack Overflow", async () => {
+    const creation = new Date()
+    creation.setDate(creation.getDate() - 29);
     const id = 123456;
     const url = "https://stackoverflow.com/users/123456/johndoe";
 
@@ -38,12 +40,24 @@ describe("createSummary", () => {
         if (site !== "stackoverflow") {
           return createError(`No site found for name \`${site}\``);
         }
-        return HttpResponse.json({ items: [{ link: url }] });
+        return HttpResponse.json({ items: [{
+          badge_counts: { bronze: 123, silver: 45, gold: 6 },
+          creation_date: Math.round(creation.getTime() / 1_000),
+          link: url,
+          reputation: 12_345,
+         }] });
       }),
     );
 
     const summary = await createSummary({ stackOverflowId: id });
 
-    assert.equal(summary[0]?.url.toString(), url);
+    assert.deepEqual(summary, [{
+      details: [
+        `⭐️ 12,345 [🥇6 / 🥈45 / 🥉123]`,
+        `📅 ${creation.getFullYear()}-${(creation.getMonth() + 1).toString().padStart(2, "0")}-${creation.getDate().toString().padStart(2, "0")} (29 days)`,
+      ],
+      title: "Stack Overflow",
+      url: new URL(url),
+    }]);
   });
 });

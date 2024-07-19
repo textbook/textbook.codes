@@ -2,6 +2,7 @@ import { getStackOverflowFact } from "./stackOverflow.js";
 import type { Fact } from "./types.js";
 
 export interface Sources {
+  gitHubUsername: string;
   stackOverflowId: number;
 }
 
