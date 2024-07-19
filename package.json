@@ -2,13 +2,13 @@
   "name": "textbook.dev",
   "version": "0.1.0",
   "main": "lib/index.js",
-  "types": "lib/index.d.ts",
   "bin": "lib/cli.js",
   "files": [
     "lib/"
   ],
   "scripts": {
-    "build": "tsc --project tsconfig.build.json",
+    "prebuild": "tsc --noEmit && rimraf lib",
+    "build": "node ./esbuild.js",
     "test": "node --import ./ts-node.js --test src/*.test.ts",
     "prestart": "npm run build",
     "start": "node lib/cli.js"
@@ -20,16 +20,16 @@
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",
     "@types/node": "^20.14.11",
+    "chalk": "^5.3.0",
+    "date-fns": "^3.6.0",
+    "esbuild": "^0.23.0",
     "msw": "^2.3.2",
+    "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.3"
   },
   "engines": {
     "node": ">=20.9"
   },
-  "type": "module",
-  "dependencies": {
-    "chalk": "^5.3.0",
-    "date-fns": "^3.6.0"
-  }
+  "type": "module"
 }
