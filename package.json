@@ -7,11 +7,13 @@
     "lib/"
   ],
   "scripts": {
-    "prebuild": "tsc --noEmit && rimraf lib",
+    "prebuild": "npm run typecheck && rimraf lib",
     "build": "node ./esbuild.js",
+    "pretest": "npm run typecheck",
     "test": "node --import ./ts-node.js --test src/*.test.ts",
     "prestart": "npm run build",
-    "start": "node lib/cli.js"
+    "start": "node lib/cli.js",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "Jonathan Sharpe <mail@jonrshar.pe>",
