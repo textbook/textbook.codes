@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "prebuild": "npm run typecheck && rimraf lib",
-    "build": "node ./esbuild.js",
+    "build": "node --import ./ts-node.js ./esbuild.ts",
     "pretest": "npm run typecheck",
     "test": "node --import ./ts-node.js --test src/*.test.ts",
     "prestart": "npm run build",
