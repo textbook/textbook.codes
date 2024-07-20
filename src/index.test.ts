@@ -54,10 +54,46 @@ describe("createSummary", () => {
     assert.deepEqual(summary, [{
       details: [
         `⭐️ 12,345 [🥇6 / 🥈45 / 🥉123]`,
-        `📅 ${creation.getFullYear()}-${(creation.getMonth() + 1).toString().padStart(2, "0")}-${creation.getDate().toString().padStart(2, "0")} (29 days)`,
+        `📅 ${toISODateString(creation)} (29 days)`,
       ],
       title: "Stack Overflow",
       url: new URL(url),
     }]);
   });
+
+  it("gets data from GitHub", async () => {
+    const creation = new Date()
+    creation.setDate(creation.getDate() - 29);
+    const username = "johndoe";
+    server.use(
+      http.get("https://api.github.com/users/:id", ({ params, request }) => {
+        if (params.id !== username) {
+          return HttpResponse.json({ message: "Not Found", status: 404 }, { status: 404 });
+        }
+        return HttpResponse.json({
+          html_url: `https://github.com/${username}`,
+          login: username,
+          created_at: creation.toISOString(),
+        });
+      })
+    );
+
+    const summary = await createSummary({ githubUsername: username });
+
+    assert.deepEqual(summary, [{
+      title: "GitHub",
+      details: [
+        `📅 ${toISODateString(creation)} (29 days)`,
+      ],
+      url: new URL("https://github.com/johndoe"),
+    }]);
+  });
 });
+
+function toISODateString(date: Date): string {
+  return [
+    date.getFullYear(),
+    (date.getMonth() + 1).toString().padStart(2, "0"),
+    date.getDate().toString().padStart(2, "0"),
+  ].join("-");
+}

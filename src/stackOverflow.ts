@@ -1,4 +1,4 @@
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNowStrict } from "date-fns";
 
 import type { Fact } from "./types.js";
 
@@ -27,7 +27,7 @@ export async function getStackOverflowFact(id: number): Promise<Fact | undefined
   return {
     details: [
       `⭐️ ${user.reputation.toLocaleString()} [${badges}]`,
-      `📅 ${created.toISOString().slice(0, 10)} (${formatDistanceToNow(created)})`,
+      `📅 ${created.toISOString().slice(0, 10)} (${formatDistanceToNowStrict(created)})`,
     ],
     title: "Stack Overflow",
     url: new URL(user.link),

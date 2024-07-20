@@ -15,7 +15,7 @@ const { values: { json }  } = parseArgs({
 });
 
 const facts = await createSummary({
-  gitHubUsername: "textbook",
+  githubUsername: "textbook",
   stackOverflowId: 3001761,
 });
 

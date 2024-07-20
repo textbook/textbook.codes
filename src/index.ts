@@ -1,15 +1,23 @@
+import { getGithubFact } from "./github.js";
 import { getStackOverflowFact } from "./stackOverflow.js";
 import type { Fact } from "./types.js";
 
 export interface Sources {
-  gitHubUsername: string;
+  githubUsername: string;
   stackOverflowId: number;
 }
 
-export async function createSummary({ stackOverflowId }: Partial<Sources>): Promise<Fact[]> {
+export async function createSummary({ githubUsername, stackOverflowId }: Partial<Sources>): Promise<Fact[]> {
   const facts: Fact[] = [];
+  let fact: Fact | undefined;
+  if (githubUsername) {
+    fact = await getGithubFact(githubUsername);
+    if (fact) {
+      facts.push(fact);
+    }
+  }
   if (stackOverflowId) {
-    const fact = await getStackOverflowFact(stackOverflowId);
+    fact = await getStackOverflowFact(stackOverflowId);
     if (fact) {
       facts.push(fact);
     }
