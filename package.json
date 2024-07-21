@@ -1,5 +1,5 @@
 {
-  "name": "textbook.dev",
+  "name": "textbook.codes",
   "version": "0.1.0",
   "main": "lib/index.js",
   "bin": "lib/cli.js",
@@ -38,10 +38,10 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/textbook/textbook.dev.git"
+    "url": "git+https://github.com/textbook/textbook.codes.git"
   },
   "bugs": {
-    "url": "https://github.com/textbook/textbook.dev/issues"
+    "url": "https://github.com/textbook/textbook.codes/issues"
   },
   "funding": "https://ko-fi.com/textbook"
 }
