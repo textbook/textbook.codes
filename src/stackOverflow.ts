@@ -35,12 +35,13 @@ export async function getStackOverflowFact(id: number): Promise<Fact | undefined
 }
 
 async function fetchUserData(id: number): Promise<Item | undefined> {
-  const res = await fetch(`https://api.stackexchange.com/2.3/users/${id}?site=stackoverflow`);
+  const url = new URL(`https://api.stackexchange.com/2.3/users/${id}`);
+  url.searchParams.set("site", "stackoverflow");
+  const res = await fetch(url);
   const data = await res.json();
-  if (!isSuccess(data)) {
-    return;
+  if (isSuccess(data)) {
+    return data.items[0];
   }
-  return data.items[0];
 }
 
 function isSuccess(data: unknown): data is SuccessResponse {

@@ -23,4 +23,4 @@ export async function createSummary({ githubUsername, stackOverflowId }: Partial
     }
   }
   return facts;
-};
+}

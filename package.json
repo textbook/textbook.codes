@@ -11,7 +11,7 @@
     "build": "node --import ./ts-node.js ./esbuild.ts",
     "postbuild": "buildinfo --format json --output lib/build-info.json",
     "pretest": "npm run typecheck",
-    "test": "node --import ./ts-node.js --test src/*.test.ts",
+    "test": "cross-env FORCE_COLOR=true node --import ./ts-node.js --test src/*.test.ts",
     "prestart": "npm run build",
     "start": "node lib/cli.js",
     "typecheck": "tsc --noEmit"
@@ -25,6 +25,7 @@
     "@tsconfig/node20": "^20.1.4",
     "@types/node": "^20.14.11",
     "chalk": "^5.3.0",
+    "cross-env": "^7.0.3",
     "date-fns": "^3.6.0",
     "esbuild": "^0.23.0",
     "msw": "^2.3.2",

@@ -3,3 +3,7 @@ export interface Fact {
   title: string;
   url: URL;
 }
+
+export interface Options {
+  json: boolean;
+}
