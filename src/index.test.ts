@@ -49,16 +49,24 @@ describe("createSummary", () => {
       }),
     );
 
-    const summary = await createSummary({ stackOverflowId: id });
+    const summary = await createSummary({
+      description: "description",
+      name: "name",
+      stackOverflowId: id,
+    });
 
-    assert.deepEqual(summary, [{
-      details: [
-        `⭐️ 12,345 [🥇6 / 🥈45 / 🥉123]`,
-        `📅 ${toISODateString(creation)} (29 days)`,
-      ],
-      title: "Stack Overflow",
-      url: new URL(url),
-    }]);
+    assert.deepEqual(summary, {
+      description: "description",
+      facts: [{
+        details: [
+          `⭐️ 12,345 [🥇6 / 🥈45 / 🥉123]`,
+          `📅 ${toISODateString(creation)} (29 days)`,
+        ],
+        title: "Stack Overflow",
+        url: new URL(url),
+      }],
+      name: "name",
+    });
   });
 
   it("gets data from GitHub", async () => {
@@ -78,15 +86,23 @@ describe("createSummary", () => {
       })
     );
 
-    const summary = await createSummary({ githubUsername: username });
+    const summary = await createSummary({
+      description: "description",
+      githubUsername: username,
+      name: "name",
+    });
 
-    assert.deepEqual(summary, [{
-      title: "GitHub",
-      details: [
-        `📅 ${toISODateString(creation)} (29 days)`,
-      ],
-      url: new URL("https://github.com/johndoe"),
-    }]);
+    assert.deepEqual(summary, {
+      description: "description",
+      facts: [{
+        title: "GitHub",
+        details: [
+          `📅 ${toISODateString(creation)} (29 days)`,
+        ],
+        url: new URL("https://github.com/johndoe"),
+      }],
+      name: "name",
+    });
   });
 });
 

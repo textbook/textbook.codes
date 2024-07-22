@@ -7,6 +7,8 @@ const { json } = getOptions(process.argv.slice(2));
 const formatter: Formatter = json ? new JsonFormatter() : new TextFormatter();
 
 formatter.write(await createSummary({
+  description: "Software engineering consultant based in London, UK.",
   githubUsername: "textbook",
+  name: "Jonathan Sharpe",
   stackOverflowId: 3001761,
 }));

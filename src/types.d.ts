@@ -7,3 +7,9 @@ export interface Fact {
 export interface Options {
   json: boolean;
 }
+
+export interface Summary {
+  name: string;
+  description?: string;
+  facts: Fact[];
+}

@@ -1,20 +1,24 @@
 import chalk from "chalk";
 
-import type { Fact } from "./types.js";
+import type { Fact, Summary } from "./types.js";
 
 export abstract class Formatter {
 	constructor(protected log: Console["log"] = console.log) {}
-	abstract write(facts: Fact[]): void;
+	abstract write(summary: Summary): void;
 }
 
 export class JsonFormatter extends Formatter {
-	write(facts: Fact[]) {
-		this.log(JSON.stringify(facts, null, 2));
+	write(summary: Summary) {
+		this.log(JSON.stringify(summary, null, 2));
 	}
 }
 
 export class TextFormatter extends Formatter {
-	write(facts: Fact[]) {
+	write({ description, facts, name }: Summary) {
+		this.log("👤", chalk.bold(name), "\n");
+		if (description) {
+			this.log(chalk.italic(description), "\n");
+		}
 		for (const fact of facts) {
 			this.log(chalk.bold.underline(fact.title));
 			if (fact.details) {
@@ -22,8 +26,7 @@ export class TextFormatter extends Formatter {
 					this.log(line);
 				}
 			}
-			this.log("🔗", chalk.cyan.underline(fact.url.toString()));
-			this.log("\n");
+			this.log("🔗", chalk.cyan.underline(fact.url.toString()), "\n");
 		}
 	}
 }

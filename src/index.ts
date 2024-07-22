@@ -1,13 +1,15 @@
 import { getGithubFact } from "./github.js";
 import { getStackOverflowFact } from "./stackOverflow.js";
-import type { Fact } from "./types.js";
+import { Fact, Summary } from "./types.js";
 
 export interface Sources {
-  githubUsername: string;
-  stackOverflowId: number;
+  description?: string;
+  githubUsername?: string;
+  name: string;
+  stackOverflowId?: number;
 }
 
-export async function createSummary({ githubUsername, stackOverflowId }: Partial<Sources>): Promise<Fact[]> {
+export async function createSummary({ description, githubUsername, name, stackOverflowId }: Sources): Promise<Summary> {
   const facts: Fact[] = [];
   let fact: Fact | undefined;
   if (githubUsername) {
@@ -22,5 +24,5 @@ export async function createSummary({ githubUsername, stackOverflowId }: Partial
       facts.push(fact);
     }
   }
-  return facts;
+  return { description, facts, name };
 }
