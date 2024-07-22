@@ -1,0 +1,88 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ v* ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: textbook/take-action@nodejs
+        with:
+          node-version: 20
+      - run: npm run test
+      - run: npm run build
+      - run: npm pack
+      - run: mv textbook.codes-*.tgz package.tgz
+      - uses: actions/upload-artifact@v4
+        with:
+          if-no-files-found: error
+          name: package
+          path: package.tgz
+  e2e:
+    strategy:
+      matrix:
+        platform: [ ubuntu-22.04 ]
+        node: [ 20.9, 20, 22 ]
+        include:
+          - node: 20
+            platform: windows-2022
+          - node: 20
+            platform: ubuntu-24.04
+    needs: [ test ]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: package
+      - run: npm init --yes
+      - run: npm install package.tgz
+      - run: npx textbook.codes > out.txt
+      - run: type out.txt
+        if: contains(matrix.platform, 'windows')
+      - run: cat out.txt
+        if: contains(matrix.platform, 'ubuntu')
+  deploy-github:
+    runs-on: ubuntu-22.04
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [ e2e ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: package
+      - run: |
+          gh release create \
+          '${{ github.ref_name }}' \
+          --title '${{ github.ref_name }}' \
+          "package.tgz#NPM package"
+        env:
+          GH_TOKEN: ${{ github.token }}
+  deploy-npm:
+    runs-on: ubuntu-22.04
+    if: startsWith(github.ref, 'refs/tags/v')
+    environment:
+      name: npm
+      url: https://www.npmjs.com/package/textbook.codes
+    needs: [ e2e ]
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/download-artifact@v4
+        with:
+          name: package
+      - run: npm config set '//registry.npmjs.org/:_authToken' "${NPM_AUTH_TOKEN}"
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      - run: npm publish --provenance package.tgz
