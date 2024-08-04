@@ -9,7 +9,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - uses: textbook/take-action@nodejs
         with:
@@ -26,13 +26,15 @@ jobs:
   e2e:
     strategy:
       matrix:
-        platform: [ ubuntu-22.04 ]
+        platform: [ ubuntu-latest ]
         node: [ 20.9, 20, 22 ]
         include:
           - node: 20
-            platform: windows-2022
+            platform: windows-latest
           - node: 20
             platform: ubuntu-24.04
+          - node: 20
+            platform: macos-latest
     needs: [ test ]
     runs-on: ${{ matrix.platform }}
     steps:
@@ -48,7 +50,7 @@ jobs:
         env:
           FORCE_COLOR: true
   deploy-github:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
     needs: [ e2e ]
     permissions:
@@ -66,7 +68,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
   deploy-npm:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
     environment:
       name: npm
