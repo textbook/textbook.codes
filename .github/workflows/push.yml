@@ -17,7 +17,7 @@ jobs:
       - run: npm run test
       - run: npm run build
       - run: npm pack
-      - run: mv textbook.codes-*.tgz package.tgz
+      - run: mv textbook-codes-*.tgz package.tgz
       - uses: actions/upload-artifact@v4
         with:
           if-no-files-found: error
@@ -44,7 +44,7 @@ jobs:
           name: package
       - run: npm init --scope test --yes
       - run: npm install package.tgz
-      - run: npx textbook.codes
+      - run: npx --no @textbook/codes
         env:
           FORCE_COLOR: true
   deploy-github:
@@ -70,7 +70,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     environment:
       name: npm
-      url: https://www.npmjs.com/package/textbook.codes
+      url: https://www.npmjs.com/package/@textbook/codes
     needs: [ e2e ]
     permissions:
       contents: read

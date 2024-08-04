@@ -5,5 +5,5 @@ About the author.
 ## Usage
 
 ```bash
-$ npx textbook.codes
+$ npx @textbook/codes
 ```
