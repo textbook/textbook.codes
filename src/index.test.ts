@@ -15,7 +15,7 @@ describe("createSummary", () => {
 
   after(() => server.close());
 
-  function createError(description: string): HttpResponse {
+  function createError(description: string): HttpResponse<any> {
     return HttpResponse.json(
       { error_id: 400, error_message: description, error_name: "bad_parameter"  },
       { status: 400 },
