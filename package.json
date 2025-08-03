@@ -29,7 +29,7 @@
     "@tsconfig/node20": "^20.1.4",
     "@types/node": "^20.17.11",
     "chalk": "^5.4.1",
-    "cross-env": "^7.0.3",
+    "cross-env": "^10.0.0",
     "date-fns": "^4.1.0",
     "esbuild": "^0.24.2",
     "msw": "^2.7.0",
