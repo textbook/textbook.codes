@@ -84,4 +84,5 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: package
-      - run: npm publish --provenance package.tgz
+      - run: npm install --global npm@latest
+      - run: npm publish package.tgz
